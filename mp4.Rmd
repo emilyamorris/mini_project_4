@@ -1,0 +1,33 @@
+---
+title: "mp4"
+author: "Emily Morris"
+date: "April 16, 2018"
+output: html_document
+---
+
+```{r}
+
+#install.packages("mdsr")
+#install.packages("RMySQL")
+
+library(mdsr)
+library(RMySQL)
+whole_db <- dbConnect_scidb(dbname= "imdb")
+
+```
+
+```{r}
+getmovies <-"
+SELECT *
+FROM movie_info 
+	JOIN title 
+	ON movie_id
+WHERE info_type_id
+IN (90, 91, 92) AND 
+kind_id= 1;"
+```
+
+```{r}
+whole_db %>%
+dbGetQuery(getmovies)
+```
