@@ -22,12 +22,24 @@ SELECT *
 FROM movie_info 
 	JOIN title 
 	ON movie_id
-WHERE info_type_id
-IN (90, 91, 92) AND 
+WHERE info_type_id = 90 OR info_type_id = 91 OR info_type_id = 92 AND
 kind_id= 1;"
 ```
 
 ```{r}
 whole_db %>%
 dbGetQuery(getmovies)
+```
+
+'''SELECT movie_id AS mi, info_type_id AS iti, info AS based_on, title AS t, production_year AS year
+FROM movie_info 
+	JOIN title 
+	ON movie_id
+WHERE info_type_id = 90
+AND kind_id= 1;
+
+SELECT info AS gross, movie_id AS mi
+FROM movie_info
+WHERE info_type_id= 107 AND gross LIKE '%$';
+
 ```
