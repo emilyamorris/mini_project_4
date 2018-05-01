@@ -18,6 +18,8 @@ whole_db <- dbConnect_scidb(dbname= "imdb")
 ```
 
 ```{r}
+#sql queries for all imdb things based on books, the gross of everything made in America in dollars, and all movies and their titles/movie_ids
+
 getmovie <- "SELECT movie_id
 FROM movie_info
 WHERE info_type_id = 92;"
@@ -32,6 +34,8 @@ WHERE kind_id =1;"
 ```
 
 ```{r}
+#running all those queries as objects
+
 movie_ids <- whole_db %>%
 dbGetQuery(getmovie)
 
@@ -43,6 +47,8 @@ movie_gross <- whole_db %>%
 ```
 
 ```{r}
+#joining all the data sets in a way that we couldn't do all at once in SQL because it kept breaking the database when we tried (seemed ridiculous to have a huge sql query that took forever to test when we could sort what we needed from sql in smaller chunks and do the rest in dplyr)
+
 movies <- movie_ids %>%
   left_join(movie_gross, by = "movie_id")%>%
   na.omit()%>%
@@ -53,6 +59,3 @@ movies <- movie_ids %>%
   arrange(year)
 ```
 
-
-
-```
