@@ -12,23 +12,47 @@ output: html_document
 
 library(mdsr)
 library(RMySQL)
+library(tidyverse)
+library(dplyr)
 whole_db <- dbConnect_scidb(dbname= "imdb")
 ```
 
 ```{r}
-getmovie <- "SELECT movie_id AS mi, info_type_id AS iti, info AS based_on, title AS t, production_year AS year
-FROM movie_info 
-	JOIN title 
-	ON movie_id
-WHERE info_type_id = 90
-AND kind_id= 1;"
-
-getgross <- "SELECT info AS gross, movie_id AS mi
+getmovie <- "SELECT movie_id
 FROM movie_info
-WHERE info_type_id= 107 AND info LIKE '%$%';"
+WHERE info_type_id = 92;"
+
+getgross <- "SELECT substr(info, 1, locate('(', info) - 1) AS gross, movie_id
+FROM movie_info
+WHERE info_type_id= 107 AND info LIKE '%(USA)%' AND info LIKE '$%'"
+
+gettitles <- "SELECT id AS movie_id, title, production_year AS year
+FROM title
+WHERE kind_id =1;"
 ```
 
 ```{r}
-whole_db %>%
+movie_ids <- whole_db %>%
 dbGetQuery(getmovie)
+
+movie_titles <- whole_db %>%
+  dbGetQuery(gettitles)
+
+movie_gross <- whole_db %>%
+  dbGetQuery(getgross)
+```
+
+```{r}
+movies <- movie_ids %>%
+  left_join(movie_gross, by = "movie_id")%>%
+  na.omit()%>%
+  group_by(movie_id)%>%
+  summarise(max_made = max(gross))%>%
+  select(movie_id, max_made)%>%
+  inner_join(movie_titles, by = "movie_id")%>%
+  arrange(year)
+```
+
+
+
 ```
