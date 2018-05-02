@@ -48,22 +48,19 @@ dbGetQuery(getmovie)
 
 movie_titles <- whole_db %>%
   dbGetQuery(gettitles)
-```
-
-```{r}
 
 movie_gross <- whole_db %>%
   dbGetQuery(getgross)
 ```
 
 ```{r}
-
+#fixing the gross column so it's numeric instead of chr
 movie_gross$gross_2 = gsub("[\\$,]", "", movie_gross$gross)
 movie_gross$cash = as.numeric(movie_gross$gross_2)
 ```
 
 ```{r}
-#getting inflation data
+#getting inflation data (from US Consumer Price Index Website)
 library(readxl)
 cpi <- read_excel("cpi.xlsx")
 
@@ -87,6 +84,7 @@ movies <- movie_ids %>%
 ```
 
 ```{r}
+#Getting some statistics out of the data
 movie_stats <- movies %>%
   group_by(year)%>%
   summarise(number_of_movies = n(),
@@ -98,7 +96,8 @@ movie_stats <- movies %>%
 ```
 
 ```{r}
-plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_stats) - .x)), ]) %>% 
+#animating the average movie gross
+average_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_stats) - .x)), ]) %>% 
     tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
     ggplot(aes(year, average_made_adjusted, frame = .frame)) + 
     geom_path() + 
@@ -108,12 +107,32 @@ plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_s
     ylab("Average Movie Gross Adjusted for Inflation (with 1982 as a baseline)")+
     theme_economist()+
     labs(title= "Average Gross for Movies Based Off Books 
-from 1913 to 2017", subtitle= "Adjusted for inflation with a 1982 as a consumer price index baseline")
+from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer price index baseline")
     
 
 animation::ani.options(interval = 0.1)
-gganimate::gganimate(plot, title_frame = FALSE)
+gganimate::gganimate(average_gross_plot, title_frame = FALSE)
 ```
+
+```{r}
+#animating the total movie gross
+total_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_stats) - .x)), ]) %>% 
+    tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
+    ggplot(aes(year, total_made_adjusted, frame = .frame)) + 
+    geom_path() + 
+    geom_point() +
+    scale_y_log10()+
+    xlab("Year") +
+    ylab("Total Movie Gross Adjusted for Inflation (with 1982 as a baseline)")+
+    theme_economist()+
+    labs(title= "Total Gross for Movies Based Off Books Per Year
+from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer price index baseline")
+    
+
+animation::ani.options(interval = 0.1)
+gganimate::gganimate(total_gross_plot, title_frame = FALSE)
+```
+
 
 Got the data for consumer price index from the US government website
 
