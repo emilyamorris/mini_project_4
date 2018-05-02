@@ -108,7 +108,7 @@ plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_s
     ylab("Average Movie Gross Adjusted for Inflation (with 1982 as a baseline)")+
     theme_economist()+
     labs(title= "Average Gross for Movies Based Off Books 
-         from 1913 to 2017", subtitle= "Adjusted for inflation with a 1982 as a consumer price index baseline")
+from 1913 to 2017", subtitle= "Adjusted for inflation with a 1982 as a consumer price index baseline")
     
 
 animation::ani.options(interval = 0.1)
