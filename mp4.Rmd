@@ -1,11 +1,13 @@
 ---
-title: "mp4"
-author: "Emily Morris"
+title: "Does Hollywood Need Originality?"
+author: "Hannah R.D., Sylvie L., and Emily M"
 date: "April 16, 2018"
-output: html_document
+output:
+   html_document:
+    code_folding: hide
 ---
 
-```{r}
+```{r warning= FALSE, message= FALSE}
 
 #install.packages("mdsr")
 #install.packages("RMySQL")
@@ -24,7 +26,7 @@ library(magick)
 #you need ImageMagick to make this work, and have to check off the "add legacy utilities" when installing it!!!!
 ```
 
-```{r}
+```{r warning= FALSE, message= FALSE}
 #sql queries for all imdb things based on books, the gross of everything made in America in dollars, and all movies and their titles/movie_ids
 
 getmovie <- "SELECT movie_id
@@ -45,7 +47,7 @@ JOIN title b on a.movie_id =b.id
 WHERE info_type_id= 107 AND info LIKE '%(USA)%' AND info LIKE '$%' AND kind_id =1;"
 ```
 
-```{r}
+```{r warning= FALSE, message= FALSE}
 #running all those queries as objects
 
 movie_ids <- whole_db %>%
@@ -61,7 +63,7 @@ all_movie_gross <- whole_db %>%
   dbGetQuery(get_all_movie_gross)
 ```
 
-```{r}
+```{r warning=FALSE, message= FALSE}
 #fixing the gross column so it's numeric instead of chr
 movie_gross$gross_2 = gsub("[\\$,]", "", movie_gross$gross)
 movie_gross$cash = as.numeric(movie_gross$gross_2)
@@ -70,7 +72,7 @@ all_movie_gross$gross_2 = gsub("[\\$,]", "", all_movie_gross$gross)
 all_movie_gross$cash = as.numeric(all_movie_gross$gross_2)
 ```
 
-```{r}
+```{r warning=FALSE, message= FALSE}
 #getting inflation data (from US Consumer Price Index Website)
 library(readxl)
 cpi <- read_excel("cpi.xlsx")
@@ -81,7 +83,7 @@ cpi <- cpi %>%
 
 ```
 
-```{r}
+```{r warning=FALSE, message= FALSE}
 #joining all the data sets in a way that we couldn't do all at once in SQL because it kept breaking the database when we tried (seemed ridiculous to have a huge sql query that took forever to test when we could sort what we needed from sql in smaller chunks and do the rest in dplyr)
 
 movies <- movie_ids %>%
@@ -94,7 +96,7 @@ movies <- movie_ids %>%
   arrange(year)
 ```
 
-```{r}
+```{r warning= FALSE, message= FALSE}
 #Getting some statistics out of the data
 movie_stats <- movies %>%
   group_by(year)%>%
@@ -132,7 +134,7 @@ bookmovies_vs_allmovies <- movie_stats %>%
   replace_na(list(number_of_movies=0, total_made_adjusted= 0, average_made_adjusted= 0, percent_book_movies= 0, percent_average_gross= 0, percent_total_gross= 0))
 ```
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 #animating the average movie gross
 average_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_stats) - .x)), ]) %>% 
     tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
@@ -148,10 +150,12 @@ from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer pr
     
 
 animation::ani.options(interval = 0.1)
-gganimate::gganimate(average_gross_plot, title_frame = FALSE)
+animation_1 <- gganimate::gganimate(average_gross_plot, "average_gross_animation.gif", title_frame = FALSE)
 ```
 
-```{r}
+![](average_gross_animation.gif)
+
+```{r warning=FALSE, message= FALSE}
 #animating the total movie gross
 total_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_stats) - .x)), ]) %>% 
     tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
@@ -167,10 +171,12 @@ from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer pr
     
 
 animation::ani.options(interval = 0.1)
-gganimate::gganimate(total_gross_plot, title_frame = FALSE)
+animation_2 <- gganimate::gganimate(total_gross_plot, "total_gross_plot.gif", title_frame = FALSE)
 ```
 
-```{r fig.width= 10}
+![](total_gross_plot.gif)
+
+```{r warning=FALSE, message= FALSE}
 #plotting the percent of movies per year that were based off books versus total 
 percent_plot <- map(seq(nrow(bookmovies_vs_allmovies)), ~bookmovies_vs_allmovies[c(seq(.x), rep(.x, nrow(bookmovies_vs_allmovies) - .x)), ]) %>% 
     tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
@@ -185,10 +191,12 @@ percent_plot <- map(seq(nrow(bookmovies_vs_allmovies)), ~bookmovies_vs_allmovies
     
 
 animation::ani.options(interval = 0.01)
-gganimate::gganimate(percent_plot, title_frame = FALSE)
+animation_3 <- gganimate::gganimate(percent_plot, "percent_plot.gif", title_frame = FALSE)
 
 
 ```
+
+![](percent_plot.gif)
 Got the data for consumer price index from the US government website
 
 
