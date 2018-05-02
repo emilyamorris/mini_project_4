@@ -38,6 +38,11 @@ WHERE info_type_id= 107 AND info LIKE '%(USA)%' AND info LIKE '$%'"
 gettitles <- "SELECT id AS movie_id, title, production_year AS year
 FROM title
 WHERE kind_id =1;"
+
+get_all_movie_gross <- "SELECT substr(info, 1, locate('(', info) - 1) AS gross, movie_id, title, production_year AS year
+FROM movie_info a
+JOIN title b on a.movie_id =b.id
+WHERE info_type_id= 107 AND info LIKE '%(USA)%' AND info LIKE '$%' AND kind_id =1;"
 ```
 
 ```{r}
@@ -51,12 +56,18 @@ movie_titles <- whole_db %>%
 
 movie_gross <- whole_db %>%
   dbGetQuery(getgross)
+
+all_movie_gross <- whole_db %>%
+  dbGetQuery(get_all_movie_gross)
 ```
 
 ```{r}
 #fixing the gross column so it's numeric instead of chr
 movie_gross$gross_2 = gsub("[\\$,]", "", movie_gross$gross)
 movie_gross$cash = as.numeric(movie_gross$gross_2)
+
+all_movie_gross$gross_2 = gsub("[\\$,]", "", all_movie_gross$gross)
+all_movie_gross$cash = as.numeric(all_movie_gross$gross_2)
 ```
 
 ```{r}
@@ -92,7 +103,33 @@ movie_stats <- movies %>%
             average_cash = mean(max_made))%>%
   left_join(cpi, by= "year")%>%
   mutate(total_made_adjusted = total_cash*percent_inflation,
-         average_made_adjusted = average_cash*percent_inflation)
+         average_made_adjusted = average_cash*percent_inflation)%>%
+  select(year, number_of_movies, total_made_adjusted, average_made_adjusted)
+
+
+all_movie_stats <- all_movie_gross %>%
+  group_by(movie_id)%>%
+  summarise(max_made_all= max(cash))%>%
+  left_join(movie_titles, by= "movie_id")%>%
+  group_by(year)%>%
+  summarise(number_of_movies_all = n(),
+            total_cash_all = sum(max_made_all),
+            average_cash_all = mean(max_made_all))%>%
+  left_join(cpi, by= "year")%>%
+  mutate(total_made_adjusted_all = total_cash_all*percent_inflation,
+         average_made_adjusted_all = average_cash_all*percent_inflation)%>%
+  arrange(year)%>%
+  na.omit()%>%
+  select(year, total_made_adjusted_all, average_made_adjusted_all, number_of_movies_all)
+
+
+bookmovies_vs_allmovies <- movie_stats %>%
+  full_join(all_movie_stats, by= "year")%>%
+  mutate(percent_book_movies= number_of_movies/number_of_movies_all * 100,
+         percent_average_gross = average_made_adjusted/average_made_adjusted_all * 100,
+         percent_total_gross = total_made_adjusted/total_made_adjusted_all * 100)%>%
+  arrange(year)%>%
+  replace_na(list(number_of_movies=0, total_made_adjusted= 0, average_made_adjusted= 0, percent_book_movies= 0, percent_average_gross= 0, percent_total_gross= 0))
 ```
 
 ```{r}
@@ -104,7 +141,7 @@ average_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x
     geom_point() +
     scale_y_log10()+
     xlab("Year") +
-    ylab("Average Movie Gross Adjusted for Inflation (with 1982 as a baseline)")+
+    ylab("Average Movie Gross Adjusted for Inflation (log10)")+
     theme_economist()+
     labs(title= "Average Gross for Movies Based Off Books 
 from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer price index baseline")
@@ -123,7 +160,7 @@ total_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, 
     geom_point() +
     scale_y_log10()+
     xlab("Year") +
-    ylab("Total Movie Gross Adjusted for Inflation (with 1982 as a baseline)")+
+    ylab("Total Movie Gross Adjusted for Inflation (log10)")+
     theme_economist()+
     labs(title= "Total Gross for Movies Based Off Books Per Year
 from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer price index baseline")
@@ -133,7 +170,25 @@ animation::ani.options(interval = 0.1)
 gganimate::gganimate(total_gross_plot, title_frame = FALSE)
 ```
 
+```{r fig.width= 10}
+#plotting the percent of movies per year that were based off books versus total 
+percent_plot <- map(seq(nrow(bookmovies_vs_allmovies)), ~bookmovies_vs_allmovies[c(seq(.x), rep(.x, nrow(bookmovies_vs_allmovies) - .x)), ]) %>% 
+    tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
+    ggplot(aes(year, percent_total_gross, frame = .frame)) + 
+    geom_smooth() + 
+    geom_line(aes(y= percent_book_movies), color= "#4286f4")+
+    scale_y_log10()+
+    xlab("Year") +
+    ylab("Percent of Total Gross or Total Movies Made")+
+    theme_economist()+
+    labs(title= "Book Movies vs Total movies", subtitle= "By year")
+    
 
+animation::ani.options(interval = 0.01)
+gganimate::gganimate(percent_plot, title_frame = FALSE)
+
+
+```
 Got the data for consumer price index from the US government website
 
 
