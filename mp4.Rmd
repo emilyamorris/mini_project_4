@@ -99,11 +99,20 @@ movie_stats <- movies %>%
 ```{r}
 plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, nrow(movie_stats) - .x)), ]) %>% 
     tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
-    ggplot(aes(year, average_cash, frame = .frame)) + 
+    ggplot(aes(year, average_made_adjusted, frame = .frame)) + 
     geom_path() + 
-    geom_point()
+    geom_point() +
+    scale_y_log10()+
+    xlab("Year") +
+    ylab("Average Movie Gross Adjusted for Inflation (with 1982 as a baseline)")+
+    theme_dark()
     
 
 animation::ani.options(interval = 0.1)
 gganimate::gganimate(plot, title_frame = FALSE)
 ```
+
+
+
+
+https://community.rstudio.com/t/tweenr-gganimate-with-line-plot/4027/5
