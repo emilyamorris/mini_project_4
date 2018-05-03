@@ -131,7 +131,7 @@ bookmovies_vs_allmovies <- movie_stats %>%
          percent_average_gross = average_made_adjusted/average_made_adjusted_all * 100,
          percent_total_gross = total_made_adjusted/total_made_adjusted_all * 100)%>%
   arrange(year)%>%
-  replace_na(list(number_of_movies=0, total_made_adjusted= 0, average_made_adjusted= 0, percent_book_movies= 0, percent_average_gross= 0, percent_total_gross= 0))
+  na.omit()
 ```
 
 ```{r warning=FALSE, message=FALSE}
@@ -181,9 +181,13 @@ animation_2 <- gganimate::gganimate(total_gross_plot, "total_gross_plot.gif", ti
 percent_plot <- map(seq(nrow(bookmovies_vs_allmovies)), ~bookmovies_vs_allmovies[c(seq(.x), rep(.x, nrow(bookmovies_vs_allmovies) - .x)), ]) %>% 
     tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
     ggplot(aes(year, percent_total_gross, frame = .frame)) + 
-    geom_smooth() + 
-    geom_line(aes(y= percent_book_movies), color= "#4286f4")+
-    scale_y_log10()+
+    geom_path(aes(color="Percent of Total Gross of Book-Based Movies of Total Movie Gross")) +
+    geom_point()+
+    geom_point(aes(y= percent_book_movies, color= "Percent of Book-Based Movies of All Movies Made"))+
+    geom_path(aes(y= percent_book_movies))+
+    scale_color_manual(name= '', values= c('Percent of Total Gross of Book-Based Movies of Total Movie Gross'= '#42f46e', 'Percent of Book-Based Movies of All Movies Made'='#4286f4'))+
+    scale_y_continuous()+
+    scale_x_continuous()+
     xlab("Year") +
     ylab("Percent of Total Gross or Total Movies Made")+
     theme_economist()+
@@ -196,7 +200,7 @@ animation_3 <- gganimate::gganimate(percent_plot, "percent_plot.gif", title_fram
 
 ```
 
-![](percent_plot.gif)
+![](percent_plot.gif){#id .class width=10in height=6in}
 Got the data for consumer price index from the US government website
 
 
