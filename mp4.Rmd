@@ -145,8 +145,7 @@ average_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x
     xlab("Year") +
     ylab("Average Movie Gross Adjusted for Inflation (log10)")+
     theme_economist()+
-    labs(title= "Average Gross for Movies Based Off Books 
-from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer price index baseline")
+    labs(title= "Average Gross for Movies Based Off Books \nfrom 1913 to 2017", subtitle= "Adjusted for inflation with 1982 \nas a consumer price index baseline")
     
 
 animation::ani.options(interval = 0.1)
@@ -166,8 +165,7 @@ total_gross_plot <- map(seq(nrow(movie_stats)), ~movie_stats[c(seq(.x), rep(.x, 
     xlab("Year") +
     ylab("Total Movie Gross Adjusted for Inflation (log10)")+
     theme_economist()+
-    labs(title= "Total Gross for Movies Based Off Books Per Year
-from 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a consumer price index baseline")
+    labs(title= "Total Gross for Movies Based Off Books Per Year \nfrom 1913 to 2017", subtitle= "Adjusted for inflation with 1982 as a \nconsumer price index baseline")
     
 
 animation::ani.options(interval = 0.1)
@@ -181,17 +179,17 @@ animation_2 <- gganimate::gganimate(total_gross_plot, "total_gross_plot.gif", ti
 percent_plot <- map(seq(nrow(bookmovies_vs_allmovies)), ~bookmovies_vs_allmovies[c(seq(.x), rep(.x, nrow(bookmovies_vs_allmovies) - .x)), ]) %>% 
     tweenr::tween_states(5, 2, 'cubic-in-out', 100) %>% 
     ggplot(aes(year, percent_total_gross, frame = .frame)) + 
-    geom_path(aes(color="Percent of Total Gross of Book-Based Movies of Total Movie Gross")) +
-    geom_point()+
-    geom_point(aes(y= percent_book_movies, color= "Percent of Book-Based Movies of All Movies Made"))+
-    geom_path(aes(y= percent_book_movies))+
-    scale_color_manual(name= '', values= c('Percent of Total Gross of Book-Based Movies of Total Movie Gross'= '#42f46e', 'Percent of Book-Based Movies of All Movies Made'='#4286f4'))+
+    geom_path(aes(color="Percent of Total Gross of Book-Based \nMovies out of Total Movie Gross")) +
+    geom_point(aes( color = "Percent of Total Gross of Book-Based \nMovies out of Total Movie Gross"))+
+    geom_point(aes(y= percent_book_movies, color= "Percent of Book-Based Movies \nout of All Movies Made"))+
+    geom_path(aes(y= percent_book_movies, color= "Percent of Book-Based Movies \nout of All Movies Made"))+
+    scale_color_manual(name= '', values= c('Percent of Total Gross of Book-Based \nMovies out of Total Movie Gross'= '#f44280', 'Percent of Book-Based Movies \nout of All Movies Made'='#4286f4'))+
     scale_y_continuous()+
     scale_x_continuous()+
     xlab("Year") +
     ylab("Percent of Total Gross or Total Movies Made")+
     theme_economist()+
-    labs(title= "Book Movies vs Total movies", subtitle= "By year")
+    labs(title= "Movies Based on Books vs. All Movies", subtitle= "By year")
     
 
 animation::ani.options(interval = 0.01)
