@@ -152,7 +152,7 @@ animation::ani.options(interval = 0.1)
 animation_1 <- gganimate::gganimate(average_gross_plot, "average_gross_animation.gif", title_frame = FALSE)
 ```
 
-![](average_gross_animation.gif)
+![](average_gross_animation.gif){#id .class width=10in height=6in}
 
 ```{r warning=FALSE, message= FALSE}
 #animating the total movie gross
@@ -172,7 +172,7 @@ animation::ani.options(interval = 0.1)
 animation_2 <- gganimate::gganimate(total_gross_plot, "total_gross_plot.gif", title_frame = FALSE)
 ```
 
-![](total_gross_plot.gif)
+![](total_gross_plot.gif){#id .class width=10in height=6in}
 
 ```{r warning=FALSE, message= FALSE}
 #plotting the percent of movies per year that were based off books versus total 
