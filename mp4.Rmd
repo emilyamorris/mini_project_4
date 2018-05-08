@@ -9,7 +9,8 @@ output:
 ![](https://www.brisbanekids.com.au/wp-content/uploads/2016/12/1-bigstock-Cinema-concept-Film-reel-pop-146972888.jpg)
 
 **Problem Statement**
-Our goal was to study the relationship between books and movies, and how the success of movies based on books compares to the success of movies not based on books. Specifically, we chose to focus on whether or not movies based on books gross more in opening weekends than movies that are not based on books.
+Our goal was to study the relationship between books and movies, and how the success of movies based on books compares to the success of movies not based on books. Specifically, we chose to focus on whether or not movies based on books gross more in opening weekends than movies that are not based on books. We were interesting in learning more about the successes of creativity in Hollywood, and whether original content or adaptations are more profitable. 
+
 ```{r warning= FALSE, message= FALSE}
 
 #install.packages("mdsr")
@@ -215,16 +216,12 @@ animation_3 <- gganimate::gganimate(percent_plot, "percent_plot.gif", title_fram
 ```
 
 **Analysis**
-First, we looked at the average gross for movies based off books by year from 1913 to 2017. As you can see from the graph, although there are individual moments in time when the earnings fell, there has been a steady and dramatic trend upward in profit throughout this century. The first drop which can be seen in all three of the graphs we are presenting can probably be attributed to World War I. A first response to this analysis might be that the effects are simply due to inflation, but to counteract that we have adjusted for inflation using the year 1982 as a consumer price index baseline in all of our analysis. The significant upward trend of profit can also be seen in our second graph, showing total gross for these movies. 
+Keeping all of this in mind, we looked at the average gross for movies based off books by year from 1913 to 2017. As you can see from the graph, although there are individual moments in time when the earnings fell, there has been a steady and dramatic trend upward in profit throughout this century. The first drop which can be seen in all three of the graphs we are presenting can probably be attributed to World War I. A first response to this analysis might be that the effects are simply due to inflation, but to counteract that we have adjusted for inflation using the year 1982 as a consumer price index baseline in all of our analysis. The significant upward trend of profit can also be seen in our second graph, showing total gross for these movies. 
 
-Finally, our culminating graph compares the gross of movies based on books to the total gross of all kinds of movies. The blue line shows the proportion of movies that book-based movies make up, and the pink line shows their proportion of profit, which is much higher than the percentage of movies that they make up. This shows that movies based on books are significantly more successful compared to “original" movies.
-
-An argument could be made against these findings that people are simply going to see more movies nowadays than they were in past years, but we do not believe this to be the case. There has been a recent fervor around movie adaptations of books that sometimes exceed the popularity of the original publication itself. 
-
+Finally, our culminating graph compares the gross of movies based on books to the total gross of all kinds of movies. The blue line shows the proportion of movies that book-based movies make up, and the pink line shows their proportion of profit, which is much higher than the percentage of movies that they make up. This shows that movies based on books are significantly more successful compared to “original" movies. Our hypothesis was that this would be the case, but we had no idea that it would be to this great extent, even accounting for inflation. Although, it does make sense-- there has been a recent fervor around movie adaptations of books that sometimes exceed the popularity of the original publication itself. 
 
 ![](percent_plot.gif){#id .class width=10in height=6in}
 Got the data for consumer price index from the US government website
-
 
 https://community.rstudio.com/t/tweenr-gganimate-with-line-plot/4027/5
 
