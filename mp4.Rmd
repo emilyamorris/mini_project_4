@@ -191,7 +191,7 @@ percent_plot <- map(seq(nrow(bookmovies_vs_allmovies)), ~bookmovies_vs_allmovies
     theme_economist()+
     labs(title= "Movies Based on Books vs. All Movies", subtitle= "By year")
     
-
+ 
 animation::ani.options(interval = 0.01)
 animation_3 <- gganimate::gganimate(percent_plot, "percent_plot.gif", title_frame = FALSE)
 
