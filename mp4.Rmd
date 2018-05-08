@@ -6,7 +6,10 @@ output:
    html_document:
     code_folding: hide
 ---
-Problem Statement: Our goal was to study the relationship between books and movies, and how the success of movies based on books compares to the success of movies not based on books. Specifically, we chose to focus on whether or not movies based on books gross more in opening weekends than movies that are not based on books.
+![](https://www.brisbanekids.com.au/wp-content/uploads/2016/12/1-bigstock-Cinema-concept-Film-reel-pop-146972888.jpg)
+
+**Problem Statement**
+Our goal was to study the relationship between books and movies, and how the success of movies based on books compares to the success of movies not based on books. Specifically, we chose to focus on whether or not movies based on books gross more in opening weekends than movies that are not based on books.
 ```{r warning= FALSE, message= FALSE}
 
 #install.packages("mdsr")
@@ -25,7 +28,7 @@ library(gganimate)
 library(magick)
 #you need ImageMagick to make this work, and have to check off the "add legacy utilities" when installing it!!!!
 ```
-
+![Fifty Shades Darker](https://i.ytimg.com/vi/vnLqJLeTMVU/maxresdefault.jpg)
 ```{r warning= FALSE, message= FALSE}
 #sql queries for all imdb things based on books, the gross of everything made in America in dollars, and all movies and their titles/movie_ids
 
@@ -46,7 +49,7 @@ FROM movie_info a
 JOIN title b on a.movie_id =b.id
 WHERE info_type_id= 107 AND info LIKE '%(USA)%' AND info LIKE '$%' AND kind_id =1;"
 ```
-
+![A Wrinkle in Time](http://images.mentalfloss.com/sites/default/files/styles/mf_image_16x9/public/r_awrinkleintime_payoffposter_1083db22.jpeg?itok=ZBzDVodq&resize=1100x619)
 ```{r warning= FALSE, message= FALSE}
 #running all those queries as objects
 
@@ -71,7 +74,7 @@ movie_gross$cash = as.numeric(movie_gross$gross_2)
 all_movie_gross$gross_2 = gsub("[\\$,]", "", all_movie_gross$gross)
 all_movie_gross$cash = as.numeric(all_movie_gross$gross_2)
 ```
-
+![Hidden Figures](https://s3.amazonaws.com/ffe-ugc/intlportal2/dev-temp/en-US/__59dd139766efd.jpg)
 ```{r warning=FALSE, message= FALSE}
 #getting inflation data (from US Consumer Price Index Website)
 library(readxl)
@@ -133,6 +136,8 @@ bookmovies_vs_allmovies <- movie_stats %>%
   arrange(year)%>%
   na.omit()
 ```
+
+**Introduction**
 Originality is overrated! Recently, movies based on books have been some of the highest grossing movies in the industry. What is it about these movies that are drawing audiences in and creating such a lucrative market for producers? Recent articles suggest that audiences might crave the familiarity of a well loved story line, and as such are more likely to seek it out over original plots and movies. This is especially the case with movies such as the Harry Potter series, or the Hunger Games trilogy; audiences already know that they like the story, and are curious to see how their much loved characters will be brought to life. 
 
 Studios also have a vested interest in producing movies based on books. The investment in a production has a higher chance of returning a significant profit if it has an already established fan base. Because of this, studios can spend more on computer generated imagery and expensive filming locations and create higher budget and (hopefully) quality movies. 
@@ -208,9 +213,11 @@ animation_3 <- gganimate::gganimate(percent_plot, "percent_plot.gif", title_fram
 
 
 ```
+
+**Analysis**
 First, we looked at the average gross for movies based off books by year from 1913 to 2017. As you can see from the graph, although there are individual moments in time when the earnings fell, there has been a steady and dramatic trend upward in profit throughout this century. The first drop which can be seen in all three of the graphs we are presenting can probably be attributed to World War I. A first response to this analysis might be that the effects are simply due to inflation, but to counteract that we have adjusted for inflation using the year 1982 as a consumer price index baseline in all of our analysis. The significant upward trend of profit can also be seen in our second graph, showing total gross for these movies. 
 
-Finally, our culminating graph compares the gross of movies based on books to the total gross of all kinds of movies. The blue line shows the proportion of movies that book-based movies make up, and the pink line shows their proportion of profit, which is much higher than the percentage of movies that they make up. This shows that movies based on books are significantly more successful compared to “original movies.”
+Finally, our culminating graph compares the gross of movies based on books to the total gross of all kinds of movies. The blue line shows the proportion of movies that book-based movies make up, and the pink line shows their proportion of profit, which is much higher than the percentage of movies that they make up. This shows that movies based on books are significantly more successful compared to “original" movies.
 
 An argument could be made against these findings that people are simply going to see more movies nowadays than they were in past years, but we do not believe this to be the case. There has been a recent fervor around movie adaptations of books that sometimes exceed the popularity of the original publication itself. 
 
@@ -221,6 +228,6 @@ Got the data for consumer price index from the US government website
 
 https://community.rstudio.com/t/tweenr-gganimate-with-line-plot/4027/5
 
-Works Cited 
+**Works Cited**
 Liptak, Andrew. “Why Hollywood Is Turning to Books for Its Biggest Productions.” The Verge, Vox Media, 26 Jan. 2017, www.theverge.com/2017/1/26/14326356/hollywood-movie-book-adaptations-2017-expanse-game-of-thrones. Accessed 8 May 2018.
 O’Neal, Jeff. “Why Books Make the Best Movies.” BookRiot, Riot New Media, 5 Jan. 2012, bookriot.com/2012/01/05/why-books-make-the-best-movies/. Accessed 8 May 2018.
