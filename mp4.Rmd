@@ -6,7 +6,7 @@ output:
    html_document:
     code_folding: hide
 ---
-
+Problem Statement: Our goal was to study the relationship between books and movies, and how the success of movies based on books compares to the success of movies not based on books. Specifically, we chose to focus on whether or not movies based on books gross more in opening weekends than movies that are not based on books.
 ```{r warning= FALSE, message= FALSE}
 
 #install.packages("mdsr")
@@ -133,6 +133,17 @@ bookmovies_vs_allmovies <- movie_stats %>%
   arrange(year)%>%
   na.omit()
 ```
+Originality is overrated! Recently, movies based on books have been some of the highest grossing movies in the industry. What is it about these movies that are drawing audiences in and creating such a lucrative market for producers? Recent articles suggest that audiences might crave the familiarity of a well loved story line, and as such are more likely to seek it out over original plots and movies. This is especially the case with movies such as the Harry Potter series, or the Hunger Games trilogy; audiences already know that they like the story, and are curious to see how their much loved characters will be brought to life. 
+
+Studios also have a vested interest in producing movies based on books. The investment in a production has a higher chance of returning a significant profit if it has an already established fan base. Because of this, studios can spend more on computer generated imagery and expensive filming locations and create higher budget and (hopefully) quality movies. 
+
+Books tend to have nuanced and detailed plot lines that lend themselves well to an enthralling, high quality production that may not necessarily be reflected in screenplays written for the screen. These involved plot lines make for an immersive experience for the consumer that lead to higher ratings and gross more for the movie. Additionally, extended story lines that come from these nuanced plots allow for the development of a movie or television franchise that allow studios to cull a loyal fan base for years on end, such as can be seen again with Harry Potter, the Hunger Games, or many television series such as The Walking Dead. These extended storylines benefit both producer and viewer; the fans get to see their favorite books’ plots explored to the fullest extent of their detail and nuance, while producers continue to profit from the fans’ ongoing investment in the series. This scheme is also more marketable to streaming services such as Hulu and Netflix for much the same reason; they are able to draw a profit over an extended period of time while the movie series and tv shows are produced.
+
+As an added societal bonus, the recent popularity of movies based on books has created more of a demand for the original books, which is a small economic stimulus for book publishers and authors. 
+
+Books are excellent fodder for screenplays, but some may argue that the creation of movies based on books makes for a screenplay that falls pitifully short of what the reader imagined and hoped for in the cinematic production. While extended plot lines and screen plays may allow for development of some detail, it may not be the “right” one that makes the book so special to readers. Additionally, books leave a lot to the imagination of the reader; a cinematic rendering of a book in a different way than the reader imagined may turn viewers off or leave them disinterested. 
+
+Movies and sequels also take a great deal of time to produce, especially if studios are using technology like computer generated imagery. Unless the fan base is dedicated enough to remain invested for what could be over a decade, the production studio risks losing a significant amount of money. 
 
 ```{r warning=FALSE, message=FALSE}
 #animating the average movie gross
@@ -197,6 +208,12 @@ animation_3 <- gganimate::gganimate(percent_plot, "percent_plot.gif", title_fram
 
 
 ```
+First, we looked at the average gross for movies based off books by year from 1913 to 2017. As you can see from the graph, although there are individual moments in time when the earnings fell, there has been a steady and dramatic trend upward in profit throughout this century. The first drop which can be seen in all three of the graphs we are presenting can probably be attributed to World War I. A first response to this analysis might be that the effects are simply due to inflation, but to counteract that we have adjusted for inflation using the year 1982 as a consumer price index baseline in all of our analysis. The significant upward trend of profit can also be seen in our second graph, showing total gross for these movies. 
+
+Finally, our culminating graph compares the gross of movies based on books to the total gross of all kinds of movies. The blue line shows the proportion of movies that book-based movies make up, and the pink line shows their proportion of profit, which is much higher than the percentage of movies that they make up. This shows that movies based on books are significantly more successful compared to “original movies.”
+
+An argument could be made against these findings that people are simply going to see more movies nowadays than they were in past years, but we do not believe this to be the case. There has been a recent fervor around movie adaptations of books that sometimes exceed the popularity of the original publication itself. 
+
 
 ![](percent_plot.gif){#id .class width=10in height=6in}
 Got the data for consumer price index from the US government website
