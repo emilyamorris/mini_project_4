@@ -203,3 +203,7 @@ Got the data for consumer price index from the US government website
 
 
 https://community.rstudio.com/t/tweenr-gganimate-with-line-plot/4027/5
+
+Works Cited 
+Liptak, Andrew. “Why Hollywood Is Turning to Books for Its Biggest Productions.” The Verge, Vox Media, 26 Jan. 2017, www.theverge.com/2017/1/26/14326356/hollywood-movie-book-adaptations-2017-expanse-game-of-thrones. Accessed 8 May 2018.
+O’Neal, Jeff. “Why Books Make the Best Movies.” BookRiot, Riot New Media, 5 Jan. 2012, bookriot.com/2012/01/05/why-books-make-the-best-movies/. Accessed 8 May 2018.
