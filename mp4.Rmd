@@ -224,7 +224,9 @@ Finally, our culminating graph compares the gross of movies based on books to th
 
 ![](percent_plot.gif){#id .class width=10in height=6in}
 
+So, in conclusion-- it doesn't seem that Hollywood needs originality. They should keep doing what they're doing, as it's working... 
 
+![](https://i.imgur.com/D3GzJNA.gif)
 
 **Works Cited**
 Liptak, Andrew. “Why Hollywood Is Turning to Books for Its Biggest Productions.” The Verge, Vox Media, 26 Jan. 2017, www.theverge.com/2017/1/26/14326356/hollywood-movie-book-adaptations-2017-expanse-game-of-thrones. Accessed 8 May 2018.
